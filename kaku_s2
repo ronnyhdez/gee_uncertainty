@@ -7,6 +7,20 @@
 
 // Create a polygon for your area of interest using the geometry tools; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-85.62672979936602, 10.848597075504689],
+          [-85.62672979936602, 10.841178872192584],
+          [-85.61231024370196, 10.841178872192584],
+          [-85.61231024370196, 10.848597075504689]]], null, false);
+
+
 // Sentinel-2 MSI: MultiSpectral Instrument, Level-2A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 2017-03-28T00:00:00 - 2021-11-28T00:00:00
 // 129 imagenes con un nivel de nubosidad menor al 20% 
