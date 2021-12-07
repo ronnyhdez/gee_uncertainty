@@ -35,25 +35,9 @@ var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
 ;
 
-// Create a function that takes an image, calculates the median over a
-// geometry and returns the value and the corresponding date as a feature.
-var convert_to_FC = function(image){
-  var date = image.get('system:time_start');
-  var feature = ee.Feature(null, // geometry
-                            {'system:time_start': date, // properties
-                            'date': ee.Date(date).format('Y/M/d')});
-  return feature;
-};
-
-// Apply the function to each image in the dates ImageCollection.
-var dates_table = s2.map(convert_to_FC);
-print('Dates table:', dates_table);
-
-// // Export the time-series as a csv.
 Export.table.toDrive({
-  collection: dates_table,
-  selectors: 'date',
-  description: 's2_2a',
-  // description: 's2_1c',
-  fileFormat: 'CSV'
-});
+  collection: s2,
+  description: "sentinel_2_level_2a"
+})
+
+
