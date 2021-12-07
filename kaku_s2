@@ -39,6 +39,12 @@ Export.table.toDrive({
 });
 
 
+// Sentinel-2 MSI: MultiSpectral Instrument, Level-2A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// 2017-03-28T00:00:00 - 2021-11-28T00:00:00
+// 129 imagenes con un nivel de nubosidad menor al 20%. 
+// Pero me llevo todo el dataset a R
+
+
 
 
 
