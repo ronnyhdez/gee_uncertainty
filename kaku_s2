@@ -7,7 +7,7 @@
 
 // Create a polygon for your area of interest using the geometry tools; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-var geometry = 
+var kaku_tower = 
     /* color: #d63000 */
     /* displayProperties: [
       {
@@ -28,7 +28,7 @@ var geometry =
 // Create image collection of S-2 imagery
 var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 //filter start and end date
-.filterDate('2017-03-28', '2021-11-28')
+//.filterDate('2017-03-28', '2021-11-28')
 //filter according to drawn boundary
 .filterBounds(kaku_tower)
 // pre-filter to get less cloudy images (only keeps images with less than 20% cloudy pixels)
