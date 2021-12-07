@@ -1,0 +1,46 @@
+var kaku_tower = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-85.62372734229712, 10.845244958753868],
+          [-85.62372734229712, 10.84052425229872],
+          [-85.61445762794165, 10.84052425229872],
+          [-85.61445762794165, 10.845244958753868]]], null, false);
+          
+          
+// Create image collection of S-3 imagery
+var s3 = ee.ImageCollection(ee.ImageCollection("COPERNICUS/S3/OLCI")) 
+//filter start and end date
+.filterDate('2016-10-18', '2021-11-28')
+//filter according to drawn boundary
+.filterBounds(kaku_tower)
+// pre-filter to get less cloudy images (only keeps images with less than 20% cloudy pixels)
+//.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE',20))
+;
+
+// Images over geometry and returns the value and the corresponding date as a feature.
+var convert_to_FC = function(image){
+  var date = image.get('system:time_start');
+  var feature = ee.Feature(null, // geometry
+                            {'system:time_start': date, // properties
+                            'date': ee.Date(date).format('Y/M/d')});
+  return feature;
+};
+
+// Apply the function to each image in the dates ImageCollection.
+var dates_table = s3.map(convert_to_FC);
+print('Dates table:', dates_table);
+
+// // Export the time-series as a csv.
+Export.table.toDrive({
+  collection: dates_table,
+  selectors: 'date',
+  description: 's3_olci',
+  // description: 's2_1c',
+  fileFormat: 'CSV'
+});
+
