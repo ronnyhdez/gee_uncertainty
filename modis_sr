@@ -1,23 +1,12 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var imageCollection = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP"),
-    principe_tower = 
-    /* color: #98ff00 */
-    /* displayProperties: [
-      {
-        "type": "rectangle"
-      }
-    ] */
-    ee.Geometry.Polygon(
-        [[[-85.60582326007865, 10.856977852684755],
-          [-85.60582326007865, 10.853142434891788],
-          [-85.60037301136039, 10.853142434891788],
-          [-85.60037301136039, 10.856977852684755]]], null, false);
+    principe_tower = /* color: #0b4a8b */ee.Geometry.Point([-85.6042203532032, 10.852088350676011]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // Create image collection of S-2 imagery
 var modis_sr = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP")
                     .filter(ee.Filter.date('2013-01-01', '2017-01-31'))
                     .filterBounds(principe_tower);
-//print(modis_sr);
+print(modis_sr);
 //Export.table.toDrive({
 //  collection: modis_sr,
 //  description: "modis_principe"
@@ -25,5 +14,5 @@ var modis_sr = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP")
 
 //var dataset = ee.ImageCollection('UMT/NTSG/v2/MODIS/GPP')
 //                .filter(ee.Filter.date('2017-05-01', '2017-05-31'));
-var gpp = modis_sr.select('GPP')
-print(gpp);
+//var gpp = modis_sr.select('GPP')
+//print(gpp);
