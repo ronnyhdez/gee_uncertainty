@@ -1,6 +1,6 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var imageCollection = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP"),
-    geometry = 
+    principe_tower = 
     /* color: #98ff00 */
     /* displayProperties: [
       {
@@ -14,15 +14,15 @@ var imageCollection = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP"),
           [-85.60037301136039, 10.856977852684755]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // Create image collection of S-2 imagery
-var modis_sr = ee.ImageCollection('COPERNICUS/S2_SR')
+var modis_sr = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP")
 //filter start and end date
 //.filterDate('2017-03-28', '2021-11-28')
 //filter according to drawn boundary
-.filterBounds(kaku_tower)
+.filterBounds(principe_tower)
 ;
 
 Export.table.toDrive({
   collection: modis_sr,
-  description: "sentinel_2_level_2a"
+  description: "modis_principe"
 });
 
