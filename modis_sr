@@ -17,12 +17,13 @@ var imageCollection = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP"),
 var modis_sr = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP")
                     .filter(ee.Filter.date('2013-01-01', '2017-01-31'))
                     .filterBounds(principe_tower);
-
-Export.table.toDrive({
-  collection: modis_sr,
-  description: "modis_principe"
-});
+//print(modis_sr);
+//Export.table.toDrive({
+//  collection: modis_sr,
+//  description: "modis_principe"
+//});
 
 //var dataset = ee.ImageCollection('UMT/NTSG/v2/MODIS/GPP')
 //                .filter(ee.Filter.date('2017-05-01', '2017-05-31'));
-//var gpp = dataset.select('GPP')
+var gpp = modis_sr.select('GPP')
+print(gpp);
