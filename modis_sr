@@ -1,0 +1,17 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var imageCollection = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP"),
+    geometry = 
+    /* color: #98ff00 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-85.60582326007865, 10.856977852684755],
+          [-85.60582326007865, 10.853142434891788],
+          [-85.60037301136039, 10.853142434891788],
+          [-85.60037301136039, 10.856977852684755]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+
