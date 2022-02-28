@@ -15,14 +15,14 @@ var imageCollection = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP"),
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // Create image collection of S-2 imagery
 var modis_sr = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP")
-//filter start and end date
-//.filterDate('2017-03-28', '2021-11-28')
-//filter according to drawn boundary
-.filterBounds(principe_tower)
-;
+                    .filter(ee.Filter.date('2013-01-01', '2017-01-31'))
+                    .filterBounds(principe_tower);
 
 Export.table.toDrive({
   collection: modis_sr,
   description: "modis_principe"
 });
 
+//var dataset = ee.ImageCollection('UMT/NTSG/v2/MODIS/GPP')
+//                .filter(ee.Filter.date('2017-05-01', '2017-05-31'));
+//var gpp = dataset.select('GPP')
