@@ -25,5 +25,5 @@ var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 
 Export.table.toDrive({
   collection: s2,
-  description: "sentinel_2_level_2a"
+  description: "borden_sentinel_2_level_2a"
 });
