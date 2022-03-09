@@ -1,0 +1,29 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var borden = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-79.94202051571382, 44.30106203390822],
+          [-79.94202051571382, 44.28828376754687],
+          [-79.91936121395601, 44.28828376754687],
+          [-79.91936121395601, 44.30106203390822]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+
+
+// Create image collection of S-2 imagery
+var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
+//filter start and end date
+//.filterDate('2017-03-28', '2021-11-28')
+//filter according to drawn boundary
+.filterBounds(borden)
+;
+
+Export.table.toDrive({
+  collection: s2,
+  description: "sentinel_2_level_2a"
+});
