@@ -28,18 +28,32 @@ var kaku_tower =
 // Create image collection of S-2 imagery
 var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 //filter start and end date
-.filterDate('2017-03-28', '2019-11-28')
+//.filterDate('2017-03-28', '2019-11-28')
 //filter according to drawn boundary
 .filterBounds(kaku_tower)
+//ee.Date(Date).format('Y/M/d')
 ;
 
-print(s2)
+//print(s2)
 
-//Export.table.toDrive({
-//  collection: s2,
-//  description: "sentinel_2_level_2a"
-//});
+Export.table.toDrive({
+  collection: s2,
+  description: "santa_rosa_sentinel_2_level_2a"
+});
 
+
+//var convert_to_FC = function(image){
+//  var date = image.get('system:time_start');
+//  var value = image.reduceRegion({
+//    reducer: ee.Reducer.median(), 
+//    geometry: geometry, 
+//    scale: 100}).get('NDVI');
+//  var feature = ee.Feature(null, // geometry
+//                            {'system:time_start': date, // properties
+//                            'date': ee.Date(date).format('Y/M/d'), 
+//                            'ndvi_value': value});
+//  return feature;
+//};
 
 // Sentinel-2 MSI: MultiSpectral Instrument, Level-2A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 2017-03-28T00:00:00 - 2021-11-28T00:00:00
