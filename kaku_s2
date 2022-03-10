@@ -28,15 +28,17 @@ var kaku_tower =
 // Create image collection of S-2 imagery
 var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 //filter start and end date
-//.filterDate('2017-03-28', '2021-11-28')
+.filterDate('2017-03-28', '2019-11-28')
 //filter according to drawn boundary
 .filterBounds(kaku_tower)
 ;
 
-Export.table.toDrive({
-  collection: s2,
-  description: "sentinel_2_level_2a"
-});
+print(s2)
+
+//Export.table.toDrive({
+//  collection: s2,
+//  description: "sentinel_2_level_2a"
+//});
 
 
 // Sentinel-2 MSI: MultiSpectral Instrument, Level-2A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
