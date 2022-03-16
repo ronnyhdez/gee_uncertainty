@@ -1,0 +1,23 @@
+// Load a landsat image and select three bands.
+var landsat = ee.Image('LANDSAT/LC08/C01/T1_TOA/LC08_123032_20140515')
+  .select(['B4', 'B3', 'B2']);
+
+//print(landsat)
+// Create a geometry representing an export region.
+var geometry = ee.Geometry.Rectangle([116.2621, 39.8412, 116.4849, 40.01236]);
+
+var projection = landsat.select('B2').projection().getInfo();
+
+//print(geometry)
+// Export a cloud-optimized GeoTIFF.
+Export.image.toDrive({
+  image: landsat,
+  description: 'imageToCOGeoTiffExample',
+  crs: projection.crs,
+  crsTransform: projection.transform,
+  region: geometry,
+  fileFormat: 'GeoTIFF',
+  formatOptions: {
+    cloudOptimized: true
+  }
+});
