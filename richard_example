@@ -1,0 +1,38 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-79.89781925054308, 44.28456740617382],
+          [-79.89781925054308, 44.28100351451511],
+          [-79.89163944097277, 44.28100351451511],
+          [-79.89163944097277, 44.28456740617382]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var c1 = ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(geometry)
+                                               .filterDate('2020-05-01','2020-12-31')
+                                               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than',30)
+                                               .map( function (image) { return image.clip(geometry)})
+                                               .map( function (image) { return image.set('samples',image.sample({region: geometry, scale:10, geometries:true}))})
+print(c1.aggregate_array('samples'))
+print(c1.aggregate_array('system:time_start'))
+
+var c2 = ee.ImageCollection("MODIS/006/MCD15A3H").filterBounds(geometry)
+                                               .filterDate('2020-06-01','2020-12-31')
+                                               .map( function (image) { return image.clip(geometry)})
+                                               .map( function (image) { return image.set('samples',image.sample({region: geometry, scale:10, geometries:true}))})
+print(ee.FeatureCollection(c2.first().get('sample')))
+/*var i1 = c1.first()
+Map.addLayer(c1)
+Map.centerObject(c1)
+var fc1 = i1.sample({region: geometry, scale:10, geometries:true})
+print(fc1)
+Export.table.toAsset(fc1,'borden','borden')*/
+
+var i2 = c2.first()
+Map.addLayer(i2)
+Map.centerObject(i2)
