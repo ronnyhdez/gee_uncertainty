@@ -1,0 +1,96 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-79.9475699912385, 44.31059916513732],
+          [-79.9475699912385, 44.3082038411823],
+          [-79.94336428750314, 44.3082038411823],
+          [-79.94336428750314, 44.31059916513732]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+// ############ Richard's example to extract bands ###############################################################
+var c1 = ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(geometry)
+                                                //.filterDate('2020-05-01','2020-12-31')
+                                               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than',30)
+                                               .map( function (image) { return image.clip(geometry)})
+                                               .map( function (image) { 
+                                                 return image.set('samples', image.sample({
+                                                   region: geometry, 
+                                                   scale:10, 
+                                                   geometries:true
+                                                 }));
+                                               });
+                                               
+                                               
+print(c1.aggregate_array('samples'));
+print(c1.aggregate_array('system:time_start'));
+
+
+// ############### Test to export list to Drive ###################################################################
+// I cannot export a list to drive. It must be a collection. Code will run but
+// after a while it will throw an error that says just collections can be exported.
+/*var test = c1.aggregate_array('samples');
+
+ Export.table.toDrive({
+   collection: test,
+   description: "test_bands"
+ });*/
+
+
+// ############# Test to export bands as collection ###############################################################
+// Another solution (with too much coding) is to specify all the bands and return the 
+// feature collection.
+var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
+//.filterDate('2017-03-28', '2019-11-28')  //filter start and end date
+.filterBounds(geometry)   //filter according to drawn boundary
+.select(['AOT', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8',
+          'B8A', 'B9', 'B11', 'B12', 'MSK_CLDPRB', 'MSK_SNWPRB', 
+          'QA10', 'QA20', 'QA60', 'SCL', 'TCI_B', 'TCI_G', 'TCI_R',
+          'WVP',   ])
+;
+print(s2)
+
+ Export.table.toDrive({
+   collection: test,
+   description: "test_bands"
+ });
+
+//var convert_to_FC = function(image){
+//  var date = image.get('system:time_start');
+//  var value = image.reduceRegion({
+//    reducer: ee.Reducer.median(), 
+//    geometry: geometry, 
+//    scale: 100}).get('NDVI');
+//  var feature = ee.Feature(null, // geometry
+//                            {'system:time_start': date, // properties
+//                            'date': ee.Date(date).format('Y/M/d'), 
+//                            'ndvi_value': value});
+//  return feature;
+//};
+
+
+
+
+
+
+
+/*var c2 = ee.ImageCollection("MODIS/006/MCD15A3H").filterBounds(geometry)
+                                               .filterDate('2020-06-01','2020-12-31')
+                                               .map( function (image) { return image.clip(geometry)})
+                                               .map( function (image) { return image.set('samples',image.sample({region: geometry, scale:10, geometries:true}))})
+print(ee.FeatureCollection(c2.first().get('sample')))
+/*var i1 = c1.first()
+Map.addLayer(c1)
+Map.centerObject(c1)
+var fc1 = i1.sample({region: geometry, scale:10, geometries:true})
+print(fc1)
+Export.table.toAsset(fc1,'borden','borden')*/
+
+//var i2 = c2.first()
+//Map.addLayer(i2)
+//Map.centerObject(i2)
