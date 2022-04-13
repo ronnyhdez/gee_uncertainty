@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -46,20 +47,54 @@ var geometry =
 // Another solution (with too much coding) is to specify all the bands and return the 
 // feature collection.
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
-.filterDate('2017-03-28', '2019-11-28')  //filter start and end date
+.filterDate('2019-08-01', '2019-08-30')  //filter start and end date
 .filterBounds(geometry)   //filter according to drawn boundary
+.map(function (image) {return (image.clip(geometry))})
 .select(['AOT', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8',
           'B8A', 'B9', 'B11', 'B12', 'MSK_CLDPRB', 'MSK_SNWPRB', 
           'QA10', 'QA20', 'QA60', 'SCL', 'TCI_B', 'TCI_G', 'TCI_R',
-          'WVP',   ])
+          'WVP'])
+.map(function (image) {return (image.sample( { region: geometry, scale:10, geometries: true}) )})
 ;
-// print(borden_bands)
+// print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1")))
 
-Export.table.toDrive({
-  collection: borden_bands,
-  description: "test_bands",
-  fileFormat: "GeoJSON"
-});
+// Map.centerObject(borden_bands)
+// Map.addLayer(borden_bands)
+
+var borden_list = borden_bands.toList(borden_bands.size())
+// print(borden_list.get(2))
+
+// var borden_size = borden_bands.size()
+
+// print(borden_size)
+// print(ee.FeatureCollection(borden_list.get(0)).get("system:index"))
+
+var n = borden_list.size().getInfo();
+
+    for (var i = 0; i < n; i++) {
+      var feature_collection = ee.FeatureCollection(borden_list.get(i));
+      var id = feature_collection.get("system:index").getInfo();
+      Export.table.toDrive({
+        collection: feature_collection,
+        description: id,
+        fileFormat: "CSV",
+        fileNamePrefix: id,
+        folder: "08-GEE"
+      });
+    }
+
+
+
+
+// for (var i = 0; i < borden_size; i++) {
+//   // var name_file = ee.String("test_bands").cat(ee.String(i));
+//   print(ee.Number(1))
+
+
+
+// }
+
+
 
 // This one exports the collection to Drive, but without the band values. What I obtained it was just the
 // "description" of the band (the same result as the list from Richard). Looking for some answers, I read that
