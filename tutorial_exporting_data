@@ -26,11 +26,24 @@ var borden =
 
 // %%%%%%%%%%%%%%%% First attemp: Exporting after filtering bounds %%%%%%%%%%%%%%%%%%%%%%%%%%
 
+// Steps: ----
+// 1- Define polygon
+// 2- Use Sentinel 2 image collection
+// 3- Filter area according to polygon
+// 4- Export the collection to google drive
+
+
+// Why didn't work?: ----
+// If we do this, the csv file that is going to be exported it will contain just the
+// metadata and not the values of each band.
+
+// Code: -----
+
 // Create image collection of S-2 imagery
 var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
-//filter start and end date
+// filter start and end date
 //.filterDate('2017-03-28', '2021-11-28')
-//filter according to drawn boundary
+// filter according to drawn boundary
 .filterBounds(borden)
 ;
 
@@ -39,4 +52,8 @@ Export.table.toDrive({
   description: "borden_sentinel_2_level_2a"
 });
 
-// Second attemp: 
+// %%%%%%%%%%%%%%%%%% Second attemp: Exporting a geotiff %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+// 
+
+
