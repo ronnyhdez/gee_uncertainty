@@ -49,7 +49,8 @@ var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 
 Export.table.toDrive({
   collection: s2,
-  description: "borden_sentinel_2_level_2a"
+  description: "test_borden_sentinel_2_level_2a",
+  folder: "08-GEE"
 });
 
 // %%%%%%%%%%%%%%%%%% Second attemp: Exporting a geotiff %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
