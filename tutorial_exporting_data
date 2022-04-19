@@ -12,8 +12,19 @@ var borden =
           [-79.91936121395601, 44.28828376754687],
           [-79.91936121395601, 44.30106203390822]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%% How to export data from a collection of images? %%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+// First, we need to understand that there are several layers of data in the images.
+// If our objective is to export the bands values data, we need to follow some steps to
+// send this information to our google drive.
+
+// In this tutorial, I'm going to describe the attempts that I tried and explain why the
+// work or not.
+
+// %%%%%%%%%%%%%%%% First attemp: Exporting after filtering bounds %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 // Create image collection of S-2 imagery
 var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
@@ -27,3 +38,5 @@ Export.table.toDrive({
   collection: s2,
   description: "borden_sentinel_2_level_2a"
 });
+
+// Second attemp: 
