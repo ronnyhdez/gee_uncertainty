@@ -34,27 +34,165 @@ var borden =
 
 
 // Why didn't work?: ----
-// If we do this, the csv file that is going to be exported it will contain just the
-// metadata and not the values of each band.
+// If we do this, the csv file that is going to be exported it will contain 
+// **just the metadata** and not the values of each band.
 
 // Code: -----
 
-// Create image collection of S-2 imagery
-var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
-// filter start and end date
-//.filterDate('2017-03-28', '2021-11-28')
-// filter according to drawn boundary
-.filterBounds(borden)
-;
+// // Create image collection of S-2 imagery
+// var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
+// // filter start and end date
+// //.filterDate('2017-03-28', '2021-11-28')
+// // filter according to drawn boundary
+// .filterBounds(borden)
+// ;
 
-Export.table.toDrive({
-  collection: s2,
-  description: "test_borden_sentinel_2_level_2a",
-  folder: "08-GEE"
-});
+// Export.table.toDrive({
+//   collection: s2,
+//   description: "test_borden_sentinel_2_level_2a",
+//   folder: "08-GEE"
+// });
 
 // %%%%%%%%%%%%%%%%%% Second attemp: Exporting a geotiff %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
-// 
+// Steps: ----
+// 1- Select Image to work with
+// 2- Get the projection of the image (so it will be included in the Geotiff)
+// 3- Define polygon directly (not as an object implicit in the wd)
+// 4- Export the image as a GeoTiff
+
+// Why didn't work?: ----
+// I haven't review the object in R to check if everything is fine
+
+// Code: -----
+
+// var landsat = ee.Image('LANDSAT/LC08/C01/T1_TOA/LC08_123032_20140515')
+//   .select(['B4', 'B3', 'B2']);
+  
+// var projection = landsat.select('B2').projection().getInfo();
+
+// var kaku_tower = 
+//     ee.Geometry.Polygon(
+//         [[[-85.62672979936602, 10.848597075504689],
+//           [-85.62672979936602, 10.841178872192584],
+//           [-85.61231024370196, 10.841178872192584],
+//           [-85.61231024370196, 10.848597075504689]]], null, false);
+          
+// Export.image.toDrive({
+//   image: landsat,
+//   description: 'test_geotiff_kaku_landsat',
+//   folder: "08-GEE",
+//   crs: projection.crs,
+//   crsTransform: projection.transform,
+//   region: kaku_tower,
+//   fileFormat: 'GeoTIFF',
+//   formatOptions: {
+//     cloudOptimized: true
+//   }
+// });
+
+// %%%%%%%%%%%%%%%%%% Third attemp: Obtain MODIS GPP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+// Steps: ----
+// 1- Define a point in Santa Rosa
+// 2- Define image from MODIS GPP product
+// 3- Filter by date
+// 4- Filter bound by the point defined
+// 5- Try to check the values of GPP
+
+// Why didn't work?: ----
+// Again, I'm not able to see the values of GPP for the pixels involved in the bounds.
+// I'm just obtaining the metadata and the size of the pixel and the posible values
+// range for that pixel.
+// There is a need to define the values to be able to shown them
+
+// Code: -----
+
+// // Define Principe tower point (This is not a polygon)
+// var principe_tower = /* color: #0b4a8b */ee.Geometry.Point([
+//                                                             -85.6042203532032, 
+//                                                             10.852088350676011]);
+
+// var modis_sr = ee.ImageCollection("UMT/NTSG/v2/MODIS/GPP")
+//                     .filter(ee.Filter.date('2013-01-01', '2017-01-31'))
+//                     .filterBounds(principe_tower);
+// print(modis_sr);
+
+// var gpp = modis_sr.select('GPP');
+// print(gpp);
+
+// %%%%%%%%%%%%%%%%%% Fourth attemp: Obtain MODIS GPP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+// Steps: ----
+// 1- Define a point in Santa Rosa
+
+
+// Why didn't work?: ----
+
+
+// Code: -----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
