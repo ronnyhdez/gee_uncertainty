@@ -121,22 +121,43 @@ var borden =
 // var gpp = modis_sr.select('GPP');
 // print(gpp);
 
-// %%%%%%%%%%%%%%%%%% Fourth attemp: Richard example %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+// %%%%%%%%%%%%%%%%%% Fourth attemp: Richard example to extract bands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 // Steps: ----
-// 1- Define a point in Santa Rosa
+// 1- Define a geometry
+// 2- Filter cloudy images
+// 3- Clip image
+// 4- Map to sample images
+// 5- 
 
 
 // Why didn't work?: ----
-
+// I cannot export a list to drive. It must be a collection. Code will run but
+// after a while it will throw an error that says just collections can be exported.
 
 // Code: -----
 
+// var c1 = ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(geometry)
+//                                                 //.filterDate('2020-05-01','2020-12-31')
+//                                               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than',30)
+//                                               .map( function (image) { return image.clip(geometry)})
+//                                               .map( function (image) { 
+//                                                 return image.set('samples', image.sample({
+//                                                   region: geometry, 
+//                                                   scale:10, 
+//                                                   geometries:true
+//                                                 }));
+//                                               });
+                                               
+// print(c1.aggregate_array('samples'));
+// print(c1.aggregate_array('system:time_start'));
 
+// var test = c1.aggregate_array('samples');
 
-
-
-
+// Export.table.toDrive({
+//   collection: test,
+//   description: "test_bands"
+// });
 
 
 
