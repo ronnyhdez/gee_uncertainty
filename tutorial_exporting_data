@@ -121,7 +121,7 @@ var borden =
 // var gpp = modis_sr.select('GPP');
 // print(gpp);
 
-// %%%%%%%%%%%%%%%%%% Fourth attemp: Richard example to extract bands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+// %%%%%%%%%%%%%%%%%% Fourth attemp: Richard's example to extract bands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 // Steps: ----
 // 1- Define a geometry
@@ -159,5 +159,42 @@ var borden =
 //   description: "test_bands"
 // });
 
+// %%%%%%%%%%%%%%%%%% Fifth attemp: Richard's loop to extract bands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
+// Steps: ----
+// 1- Define a geometry
+// 2- Map to clip
+// 3- Select bands
+// 4- Map to sample images
 
+// Why it worked?: ----
+
+// Code: -----
+
+var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
+.filterDate('2019-08-01', '2019-08-30')  //filter start and end date
+.filterBounds(borden)   //filter according to drawn boundary
+.map(function (image) {return (image.clip(borden))})
+.select(['AOT', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8',
+          'B8A', 'B9', 'B11', 'B12', 'MSK_CLDPRB', 'MSK_SNWPRB', 
+          'QA10', 'QA20', 'QA60', 'SCL', 'TCI_B', 'TCI_G', 'TCI_R',
+          'WVP'])
+.map(function (image) {return (image.sample( { region: borden, scale:10, geometries: true}) )});
+
+// Steps to know the # of elements and pass it to the loop
+var borden_list = borden_bands.toList(borden_bands.size());
+
+// Obtain the # of iterations that we need the loop to run for
+var n = borden_list.size().getInfo();
+
+for (var i = 0; i < n; i++) {
+  var feature_collection = ee.FeatureCollection(borden_list.get(i));
+  var id = feature_collection.get("system:index").getInfo();
+  Export.table.toDrive({
+    collection: feature_collection,
+    description: id,
+    fileFormat: "CSV",
+    fileNamePrefix: id,
+    folder: "08-GEE"
+  });
+}
