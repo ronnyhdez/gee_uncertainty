@@ -121,7 +121,7 @@ var borden =
 // var gpp = modis_sr.select('GPP');
 // print(gpp);
 
-// %%%%%%%%%%%%%%%%%% Fourth attemp: Obtain MODIS GPP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+// %%%%%%%%%%%%%%%%%% Fourth attemp: Richard example %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 // Steps: ----
 // 1- Define a point in Santa Rosa
