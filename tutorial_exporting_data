@@ -137,25 +137,25 @@ var borden =
 
 // Code: -----
 
-// var c1 = ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(geometry)
+// var c1 = ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(borden)
 //                                                 //.filterDate('2020-05-01','2020-12-31')
 //                                               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than',30)
-//                                               .map( function (image) { return image.clip(geometry)})
+//                                               .map( function (image) { return image.clip(borden)})
 //                                               .map( function (image) { 
 //                                                 return image.set('samples', image.sample({
-//                                                   region: geometry, 
+//                                                   region: borden, 
 //                                                   scale:10, 
 //                                                   geometries:true
 //                                                 }));
 //                                               });
-                                               
+// // This aggregate creates a list 
 // print(c1.aggregate_array('samples'));
 // print(c1.aggregate_array('system:time_start'));
 
-// var test = c1.aggregate_array('samples');
+// var test_list = c1.aggregate_array('samples');
 
 // Export.table.toDrive({
-//   collection: test,
+//   collection: test_list,
 //   description: "test_bands"
 // });
 
