@@ -27,7 +27,9 @@ var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
           'WVP'])
 .map(function (image) {return (image.sample( { region: geometry, scale:10, geometries: true}) )})
 ;
-// print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1")))
+
+
+print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1")))
 
 // Map.centerObject(borden_bands)
 // Map.addLayer(borden_bands)
