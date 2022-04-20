@@ -26,7 +26,7 @@ var geometry =
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 .filterBounds(geometry)
 // .filterDate('2019-08-01', '2019-08-30') 
-.filterMetadata('CLOUD_COVER', 'less_than', 50)
+// .filterMetadata('CLOUD_COVER', 'less_than', 50)
 .map(function (image) {return (image.clip(geometry))})
 // .select(['AOT', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8',
 //           'B8A', 'B9', 'B11', 'B12', 'MSK_CLDPRB', 'MSK_SNWPRB', 
