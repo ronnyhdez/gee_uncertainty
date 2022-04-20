@@ -166,7 +166,8 @@ var borden =
 // 2- Map to clip
 // 3- Select bands
 // 4- Map to sample images
-// 5- 
+// 5- Obtain list size
+// 6- Loop to export each of the lists
 
 // Why it worked?: ----
 // We are sampling and clipping. This allows us to obtain the values of the pixels bands.
