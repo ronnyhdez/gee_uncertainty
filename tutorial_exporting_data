@@ -169,6 +169,7 @@ var borden =
 // 5- 
 
 // Why it worked?: ----
+// We are sampling and clipping. This allows us to obtain the values of the pixels bands.
 
 // Code: -----
 
