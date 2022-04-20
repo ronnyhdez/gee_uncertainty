@@ -16,7 +16,9 @@ var c1 = ee.ImageCollection('COPERNICUS/S2_SR').filterBounds(geometry)
                                                .filterDate('2020-05-01','2020-12-31')
                                                .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than',30)
                                                .map( function (image) { return image.clip(geometry)})
-                                               .map( function (image) { return image.set('samples',image.sample({region: geometry, scale:10, geometries:true}))})
+                                               .map( function (image) { return image.set('samples', 
+                                               image.sample({region: geometry, 
+                                               scale:10, geometries:true}))})
 print(c1.aggregate_array('samples'))
 print(c1.aggregate_array('system:time_start'))
 
