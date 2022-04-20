@@ -13,13 +13,20 @@ var geometry =
           [-79.94336428750314, 44.3082038411823],
           [-79.94336428750314, 44.31059916513732]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exporting bands data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-// ############# Test to export bands as collection ###############################################################
+// First we are going to filter according to:
+// 1- Geometry
+// 2- Date
+// 3- Cloud cover less than 30%
 // Another solution (with too much coding) is to specify all the bands and return the 
 // feature collection.
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
-.filterDate('2019-08-01', '2019-08-30')  //filter start and end date
-.filterBounds(geometry)   //filter according to drawn boundary
+.filterBounds(geometry)
+// .filterDate('2019-08-01', '2019-08-30') 
+.filterMetadata('CLOUD_COVER', 'less_than', 50)
 .map(function (image) {return (image.clip(geometry))})
 // .select(['AOT', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8',
 //           'B8A', 'B9', 'B11', 'B12', 'MSK_CLDPRB', 'MSK_SNWPRB', 
