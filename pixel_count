@@ -1,0 +1,19 @@
+
+
+
+
+// From: https://gis.stackexchange.com/questions/270942/calculating-number-of-pixels-in-polygon-using-google-earthy-engine/
+
+Map.centerObject(geometry);
+
+var image = ee.Image('users/XXXX/cover2014');
+image = image.unmask();
+
+Map.addLayer(image, {});
+
+var c = image.reduceRegion({
+  reducer: ee.Reducer.count(),
+  geometry: geometry
+  });
+
+print(c);
