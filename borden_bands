@@ -22,8 +22,8 @@ var geometry =
 // 2- For every product, scale at the resolution of the biggest one (band is 30m, scale should be that)
 // 3- Obtain pixel centroid with the LAT and LONG
 // 4- Obtain band values for every pixel in image
-// 5- Export to Google Drive
-
+// 5- Export to Google Drive bands per pixel values
+// 6- Export to Google Drive the metadata of each image
 
 // Is my geometry large enough?
 // The argument inside the `area()` function is:
