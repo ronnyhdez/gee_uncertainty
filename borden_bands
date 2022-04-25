@@ -109,15 +109,6 @@ var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 // });
 
 
-
-
-
-
-
-// This one exports the collection to Drive, but without the band values. What I obtained it was just the
-// "description" of the band (the same result as the list from Richard). Looking for some answers, I read that
-// even if it is a point I should apply a reduce function to obtain the mean/median/max/min.
-
 // ############# Test to add date column with human readable format ###############################################
 
 //var convert_to_FC = function(image){
