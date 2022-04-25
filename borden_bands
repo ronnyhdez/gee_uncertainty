@@ -51,36 +51,30 @@ var borden_list = borden_bands.toList(borden_size);
 print('Borden elements of the feature collection as a list:', borden_list);
 
 // What information do I have up to this point?
-// - I have 483 images (js goes from 0 to 482)
+// - I have 483 images (js index goes from 0 to 482)
 // - The geometry clipped have around 238 elements (pixels)
 print('Check last image in the list:', borden_list.get(482));
 
+// Now, let's try to retrieve one of the properties of the first element on the list
+print('Get the system:index property:', ee.FeatureCollection(borden_list.get(0)).get("system:index"));
+
+var n = borden_list.size().getInfo();
+print(n);
+
+// Export to Google Drive
+for (var i = 0; i < n; i++) {
+  var feature_collection = ee.FeatureCollection(borden_list.get(i));
+  var id = feature_collection.get("system:index").getInfo();
+  Export.table.toDrive({
+    collection: feature_collection,
+    description: id,
+    fileFormat: "CSV",
+    fileNamePrefix: id,
+    folder: "08-GEE/borden_sentinel"
+  });
+}
 
 
-// print(ee.FeatureCollection(borden_list.get(0)).get("system:index"))
-
-// var n = borden_list.size().getInfo();
-
-// for (var i = 0; i < n; i++) {
-//   var feature_collection = ee.FeatureCollection(borden_list.get(i));
-//   var id = feature_collection.get("system:index").getInfo();
-//   Export.table.toDrive({
-//     collection: feature_collection,
-//     description: id,
-//     fileFormat: "CSV",
-//     fileNamePrefix: id,
-//     folder: "08-GEE"
-//   });
-// }
-
-// for (var i = 0; i < borden_size; i++) {
-//   // var name_file = ee.String("test_bands").cat(ee.String(i));
-//   print(ee.Number(1))
-// }
-
-// %%%% Plot geometry on map %%%%%
-// Map.centerObject(geometry);
-// Map.addLayer(geometry);
 
 
 
