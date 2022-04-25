@@ -68,7 +68,8 @@ print('Just the size of the feature collection:', borden_size);
 var borden_list = borden_bands.toList(borden_size);
 print('Borden elements of the feature collection as a list:', borden_list);
 
-// What information do I have up to this point?
+// What information do I have up to this point? ---------------------------------------------
+// - My Borden study area is 0.0891 km^2
 // - I have 483 images (js index goes from 0 to 482)
 // - The geometry clipped have around 238 elements (pixels)
 print('Check last image in the list:', borden_list.get(482));
@@ -79,7 +80,7 @@ print('Get the system:index property:', ee.FeatureCollection(borden_list.get(0))
 var n = borden_list.size().getInfo();
 print(n);
 
-// Export to Google Drive
+// Export to Google Drive -------------------------------------------------------------------
 // for (var i = 0; i < n; i++) {
 //   var feature_collection = ee.FeatureCollection(borden_list.get(i));
 //   var id = feature_collection.get("system:index").getInfo();
