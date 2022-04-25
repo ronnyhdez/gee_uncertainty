@@ -36,14 +36,14 @@ var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 
 // print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1")))
 
-// Map.centerObject(borden_bands);
-// Map.addLayer(borden_bands);
+Map.centerObject(geometry);
+Map.addLayer(geometry);
 
-print(borden_bands)
+print(borden_bands);
 
-// var borden_list = borden_bands.toList(borden_bands.size());
+var borden_list = borden_bands.toList(borden_bands.size());
 
-// print(borden_list.get(2))
+print(borden_list.get(2))
 
 // var borden_size = borden_bands.size()
 // print(borden_size)
