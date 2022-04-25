@@ -17,76 +17,27 @@ var geometry =
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exporting bands data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-// First we are going to filter according to:
-// 1- Geometry
-// 2- Date
-// 3- Cloud cover less than 30%
-
-var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
-.filterBounds(geometry)
-// .filterDate('2019-08-01', '2019-08-30') 
-// .filterMetadata('CLOUD_COVER', 'less_than', 50)
-.map(function (image) {return (image.clip(geometry))})
-// .select(['AOT', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8',
-//           'B8A', 'B9', 'B11', 'B12', 'MSK_CLDPRB', 'MSK_SNWPRB', 
-//           'QA10', 'QA20', 'QA60', 'SCL', 'TCI_B', 'TCI_G', 'TCI_R',
-//           'WVP'])
-.map(function (image) {return (image.sample( { region: geometry, scale:10, geometries: true}) )});
-
-// print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1")))
-
-Map.centerObject(geometry);
-Map.addLayer(geometry);
-
-print(borden_bands);
-
-// var borden_list = borden_bands.toList(borden_bands.size());
-
-// print(borden_list.get(2))
-
-// var borden_size = borden_bands.size()
-// print(borden_size)
-
-// print(ee.FeatureCollection(borden_list.get(0)).get("system:index"))
-
-// var n = borden_list.size().getInfo();
-
-// for (var i = 0; i < n; i++) {
-//   var feature_collection = ee.FeatureCollection(borden_list.get(i));
-//   var id = feature_collection.get("system:index").getInfo();
-//   Export.table.toDrive({
-//     collection: feature_collection,
-//     description: id,
-//     fileFormat: "CSV",
-//     fileNamePrefix: id,
-//     folder: "08-GEE"
-//   });
-// }
-
-// for (var i = 0; i < borden_size; i++) {
-//   // var name_file = ee.String("test_bands").cat(ee.String(i));
-//   print(ee.Number(1))
-// }
-
-// This one exports the collection to Drive, but without the band values. What I obtained it was just the
-// "description" of the band (the same result as the list from Richard). Looking for some answers, I read that
-// even if it is a point I should apply a reduce function to obtain the mean/median/max/min.
-
-// ############# Test to add date column with human readable format ###############################################
-
-//var convert_to_FC = function(image){
-//  var date = image.get('system:time_start');
-//  var feature = ee.Feature(null, // geometry
-//                            {'system:time_start': date, // properties
-//                            'date': ee.Date(date).format('Y/M/d'), 
-//                            'ndvi_value': value});
-//  return feature;
-//};
+// From: https://developers.google.com/earth-engine/guides/scale
 
 
+// There are functions were we need to specify the scale. A centroid of an image is going to change
+// the value of the pixel band if we use a different scale:
 
+var image = ee.Image('LANDSAT/LC08/C01/T1/LC08_044034_20140318').select('B4');
 
+var printAtScale = function(scale) {
+  print('Pixel value at '+scale+' meters scale',
+    image.reduceRegion({
+      reducer: ee.Reducer.first(),
+      geometry: image.geometry().centroid(),
+      // The scale determines the pyramid level from which to pull the input
+      scale: scale
+  }).get('B4'));
+};
 
-
-
-
+printAtScale(10); // 8883
+printAtScale(30); // 8883
+printAtScale(50); // 8337
+printAtScale(70); // 9215
+printAtScale(200); // 8775
+printAtScale(500); // 8300
