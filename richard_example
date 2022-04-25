@@ -30,7 +30,8 @@ var c2 = ee.ImageCollection("MODIS/006/MCD15A3H").filterBounds(geometry)
                                                .filterDate('2020-06-01','2020-12-31')
                                                .map( function (image) { return image.clip(geometry)})
                                                .map( function (image) { return image.set('samples',image.sample({region: geometry, scale:10, geometries:true}))})
-print(ee.FeatureCollection(c2.first().get('sample')))
+
+print(ee.FeatureCollection(c2.first().get('sample')));
 /*var i1 = c1.first()
 Map.addLayer(c1)
 Map.centerObject(c1)
