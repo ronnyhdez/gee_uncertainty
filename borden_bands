@@ -21,6 +21,8 @@ var geometry =
 // 1- Geometry
 // 2- Date
 // 3- Cloud cover less than 30%
+
+
 // Another solution (with too much coding) is to specify all the bands and return the 
 // feature collection.
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
@@ -32,7 +34,7 @@ var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 //           'B8A', 'B9', 'B11', 'B12', 'MSK_CLDPRB', 'MSK_SNWPRB', 
 //           'QA10', 'QA20', 'QA60', 'SCL', 'TCI_B', 'TCI_G', 'TCI_R',
 //           'WVP'])
-.map(function (image) {return (image.sample( { region: geometry, scale:10, geometries: true}) )});
+.map(function (image) {return (image.sample( { region: geometry, scale:20, geometries: true}) )});
 
 // print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1")))
 
