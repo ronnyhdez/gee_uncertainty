@@ -24,26 +24,38 @@ var geometry =
 // 4- Clip the defined geometry
 // 5- Sample image including scale of bigger band that I need
 
-
 // This is going to return a feature collection
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 .filterBounds(geometry)
 // .filterDate('2019-08-01', '2019-08-30') 
-// .filterMetadata('CLOUD_COVER', 'less_than', 50)
+// .filterMetadata('CLOUD_COVER', 'less_than', 30)
 .map(function (image) {return (image.clip(geometry))})
 .map(function (image) {return (image.sample( { region: geometry, scale:20, geometries: true}) )});
 
-print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1")));
+// Check what we have as a result:
+print('All the var:', borden_bands); // Prints 483 elements
+print('The first entry:', borden_bands.first()); // Prints 238 elements that should be from the first entry
+print('Using aggregate array with B1:',
+      ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1"))); // Returns a list
 
-// Map.centerObject(geometry);
-// Map.addLayer(geometry);
+// Now, every element of the collection as a list
+// To make this function work, we need to indicate the number of elements to fetch.
+// The number of elements to fetch is the size of the feature collection
+// On the first print of the feature collection, we have that it contains 483 elements
+// I just need that number to pass it to the function `toList()` I can obtain it with the function `size()`
+var borden_size = borden_bands.size();
+print('Just the size of the feature collection:', borden_size);
 
-// var borden_list = borden_bands.toList(borden_bands.size());
+// Let's pass this number to the function `toList()`:
+var borden_list = borden_bands.toList(borden_size);
+print('Borden elements of the feature collection as a list:', borden_list);
 
-// print(borden_list.get(2));
+// What information do I have up to this point?
+// - I have 483 images (js goes from 0 to 482)
+// - The geometry clipped have around 238 elements (pixels)
+print('Check last image in the list:', borden_list.get(482));
 
-// var borden_size = borden_bands.size()
-// print(borden_size)
+
 
 // print(ee.FeatureCollection(borden_list.get(0)).get("system:index"))
 
@@ -65,6 +77,17 @@ print(ee.Feature(ee.FeatureCollection(borden_bands.first()).aggregate_array("B1"
 //   // var name_file = ee.String("test_bands").cat(ee.String(i));
 //   print(ee.Number(1))
 // }
+
+// %%%% Plot geometry on map %%%%%
+// Map.centerObject(geometry);
+// Map.addLayer(geometry);
+
+
+
+
+
+
+
 
 // This one exports the collection to Drive, but without the band values. What I obtained it was just the
 // "description" of the band (the same result as the list from Richard). Looking for some answers, I read that
