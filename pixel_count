@@ -1,3 +1,4 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
     /* shown: false */
@@ -11,19 +12,34 @@ var geometry =
           [-79.9475699912385, 44.3082038411823],
           [-79.94336428750314, 44.3082038411823],
           [-79.94336428750314, 44.31059916513732]]], null, false);
-
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%% Checking number of pixels %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 // From: https://gis.stackexchange.com/questions/270942/calculating-number-of-pixels-in-polygon-using-google-earthy-engine/
 
-Map.centerObject(geometry);
+// Following the example provided in the above link, I'm going to check if the number of pixels
+// provided by that function is the same as the one I obtained using the size
 
+// First, filter, clip and sample the geometry in Borden
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 .filterBounds(geometry)
 .map(function (image) {return (image.clip(geometry))})
-.map(function (image) {return (image.sample( { region: geometry, scale:20, geometries: true}) )})
-.map(function (image) {return (image.reduceRegion({ reducer: ee.Reducer.count()}))});
+.map(function (image) {return (image.sample( { region: geometry, scale:20, geometries: true}) )});
 
-print(borden_bands);
+print('Number of elements in the feature collection:',borden_bands);
+
+// Now, let's transform the feature collection to a list
+var borden_list = borden_bands.toList(borden_bands.size());
+print(borden_list);
+
+// Let's check the size of one element from the list:
+var first_image = borden_list.get(482);
+print('Size of the first image', first_image);
+
+
+// Now we the reducer example %%%%%%%%%%%%%%%%%
 
 
 // image = image.unmask();
