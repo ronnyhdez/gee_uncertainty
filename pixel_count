@@ -1,19 +1,38 @@
-
-
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-79.9475699912385, 44.31059916513732],
+          [-79.9475699912385, 44.3082038411823],
+          [-79.94336428750314, 44.3082038411823],
+          [-79.94336428750314, 44.31059916513732]]], null, false);
 
 
 // From: https://gis.stackexchange.com/questions/270942/calculating-number-of-pixels-in-polygon-using-google-earthy-engine/
 
 Map.centerObject(geometry);
 
-var image = ee.Image('users/XXXX/cover2014');
-image = image.unmask();
+var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
+.filterBounds(geometry)
+.map(function (image) {return (image.clip(geometry))})
+.map(function (image) {return (image.sample( { region: geometry, scale:20, geometries: true}) )})
+.map(function (image) {return (image.reduceRegion({ reducer: ee.Reducer.count()}))});
 
-Map.addLayer(image, {});
+print(borden_bands);
 
-var c = image.reduceRegion({
-  reducer: ee.Reducer.count(),
-  geometry: geometry
-  });
 
-print(c);
+// image = image.unmask();
+
+// Map.addLayer(image, {});
+
+// var c = image.reduceRegion({
+//   reducer: ee.Reducer.count(),
+//   geometry: geometry
+//   });
+
+// print(c);
