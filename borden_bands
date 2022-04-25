@@ -17,6 +17,12 @@ var geometry =
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exporting bands data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+// Steps
+// 1- Define an area of at least 3km^2
+// 2- For every product, scale at the resolution of the biggest one (band is 30m, scale should be that)
+// 3- Obtain pixel centroid with the LAT and LONG
+// 4- 
+
 // First we are going to filter according to:
 // 1- Geometry
 // 2- Date
@@ -62,20 +68,27 @@ var n = borden_list.size().getInfo();
 print(n);
 
 // Export to Google Drive
-for (var i = 0; i < n; i++) {
-  var feature_collection = ee.FeatureCollection(borden_list.get(i));
-  var id = feature_collection.get("system:index").getInfo();
-  Export.table.toDrive({
-    collection: feature_collection,
-    description: id,
-    fileFormat: "CSV",
-    fileNamePrefix: id,
-    folder: "08-GEE/borden_sentinel"
-  });
-}
+// for (var i = 0; i < n; i++) {
+//   var feature_collection = ee.FeatureCollection(borden_list.get(i));
+//   var id = feature_collection.get("system:index").getInfo();
+//   Export.table.toDrive({
+//     collection: feature_collection,
+//     description: id,
+//     fileFormat: "CSV",
+//     fileNamePrefix: id,
+//     folder: "08-GEE/borden_sentinel"
+//   });
+// }
 
 
+// Print polygon area
+// The argument inside the `area()` function is:
+// The maximum amount of error tolerated when performing any necessary reprojection.
+// I tried changing the values to 0.1, 1, 2, 3 and I have always the same value
+print(geometry.area(1));
 
+// Print polygon area in square kilometers.
+print('Polygon area: ', geometry.area(1).divide(1000 * 1000));
 
 
 
