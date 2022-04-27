@@ -2,6 +2,21 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exporting MODIS bands data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-79.9475699912385, 44.31059916513732],
+          [-79.9475699912385, 44.3082038411823],
+          [-79.94336428750314, 44.3082038411823],
+          [-79.94336428750314, 44.31059916513732]]], null, false);
+          
 // Steps ------------------------------------------------------------------------------------
 // 1- Define an area of at least 3km^2
 // 2- For every product, scale at the resolution of the biggest one (band is 30m, scale should be that)
