@@ -42,12 +42,26 @@ print('Polygon area: ', geometry.area(1).divide(1000 * 1000)); // 0.08913 Km^2
 // 4- Clip the defined geometry
 // 5- Sample image including scale of bigger band that I need
 
+
+// %%%%%%%%%%%%%%%%%%%%%%%% MODIS grid 250
+
+var grid_250 = ee.Image("MODIS/MOD44W/MOD44W_005_2000_02_24")
+.pixelLonLat()
+.rename(["longitude", "latitude"], ["modis_250_long", "modis_250_lat"]);
+
+// %%%%%%%%%%%%%%%%%%%%%%%% MODIS grid 500
+
+var grid_500 = ee.ImageCollection("MODIS/006/MCD12Q1")
+.first()
+.pixelLonLat()
+.rename(["longitude", "latitude"], ["modis_500_long", "modis_500_lat"]);
+
 // This is going to return a feature collection
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 .filterBounds(geometry)
 // .filterDate('2019-08-01', '2019-08-30') 
 // .filterMetadata('CLOUD_COVER', 'less_than', 30)
-.map(function (image) {return (image.clip(geometry))})
+// .map(function (image) {return (image.clip(geometry).addBands(grid_250).addBands(grid_500))}) Check this
 .map(function (image) {return (image.sample( { region: geometry, scale:20, geometries: true}) )});
 
 // Check what we have as a result:
@@ -107,3 +121,13 @@ var s2 = ee.ImageCollection('COPERNICUS/S2_SR')
 //   fileFormat: "CSV",
 //   folder: "08-GEE"
 // });
+
+
+
+
+
+
+
+
+
+// ee.Image.pixelLonLat()
