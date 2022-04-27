@@ -42,9 +42,9 @@ print('Polygon area: ', geometry.area(1).divide(1000 * 1000)); // 0.08913 Km^2
 
 // First we are going to filter according to:
 // 1- Geometry
-// 2- Date
-// 3- Cloud cover less than 30%
-// 4- Clip the defined geometry
+// 2- Date (not for Sentinel, given that I want all the time period)
+// 3- Clip the defined geometry
+// 4- Include as a band the grid of MODIS at 250m and 500m
 // 5- Sample image including scale of bigger band that I need
 
 // This is going to return a feature collection
@@ -52,6 +52,7 @@ var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 .filterBounds(geometry)
 // .filterDate('2019-08-01', '2019-08-30') 
 .map(function (image) {return (image.clip(geometry))})
+// .map(function (image) {return (image.clip(geometry).addBands(grid_250).addBands(grid_500))})
 .map(function (image) {return (image.sample( { region: geometry, scale:10, geometries: true}) )});
 
 // Check what we have as a result:
