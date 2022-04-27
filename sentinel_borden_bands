@@ -20,6 +20,8 @@ var geometry =
 // Steps ------------------------------------------------------------------------------------
 // 1- Define an area of at least 3km^2
 // 2- For every product, scale at the resolution of the biggest one (band is 30m, scale should be that)
+// 2.1 - The scale argument in the function should be 10, so we can oversample bigger resolutions
+// 2.3 - We need to include the MODIS grid to be able to match pixels
 // 3- Obtain pixel centroid with the LAT and LONG
 // 4- Obtain band values for every pixel in image
 // 5- Export to Google Drive bands per pixel values
