@@ -19,15 +19,18 @@ var geometry =
 
 // Steps ------------------------------------------------------------------------------------
 // 1- Define an area of at least 3km^2
-// 2- For every product, scale at the resolution of the biggest one (band is 30m, scale should be that)
-// 2.1 - The scale argument in the function should be 10, so we can oversample bigger resolutions
-// 2.3 - We need to include the MODIS grid to be able to match pixels
-// 3- Obtain pixel centroid with the LAT and LONG
-// 4- Obtain band values for every pixel in image
-// 5- Export to Google Drive bands per pixel values
-// 6- Export to Google Drive the metadata of each image
+// 2- The scale argument in the function should be 10, so we can oversample bigger resolutions
+//    instead of doing the nearest neighbor resampling.
+// 3- Include the MODIS grid to be able to match pixels between MODIS and Sentinel
+// 4- Obtain pixel centroid with the LAT and LONG
+// 5- Obtain band values for every pixel in image
+// 6- Export to Google Drive bands per pixel values
+// 7- Export to Google Drive the metadata of each image
 
+// Other points:
+// For every product, scale at the resolution of the biggest one (band is 30m, scale should be that)
 // Is my geometry large enough?
+
 // The argument inside the `area()` function is:
 // The maximum amount of error tolerated when performing any necessary reprojection.
 // I tried changing the values to 0.1, 1, 2, 3 and I have always the same value
@@ -48,7 +51,6 @@ print('Polygon area: ', geometry.area(1).divide(1000 * 1000)); // 0.08913 Km^2
 var borden_bands = ee.ImageCollection('COPERNICUS/S2_SR')
 .filterBounds(geometry)
 // .filterDate('2019-08-01', '2019-08-30') 
-// .filterMetadata('CLOUD_COVER', 'less_than', 30)
 .map(function (image) {return (image.clip(geometry))})
 .map(function (image) {return (image.sample( { region: geometry, scale:10, geometries: true}) )});
 
